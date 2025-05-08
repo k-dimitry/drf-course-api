@@ -1,5 +1,4 @@
 from django.db.models import Max
-from django.shortcuts import get_object_or_404
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -22,6 +21,16 @@ class ProductDetailAPIView(RetrieveAPIView):
 class OrderListAPIView(ListAPIView):
     queryset = Order.objects.prefetch_related('items__product')
     serializer_class = OrderSerializer
+
+
+class UserOrderListAPIView(ListAPIView):
+    queryset = Order.objects.prefetch_related('items__product')
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = super().get_queryset()
+        return qs.filter(user=user)
 
 
 @api_view(['GET'])
