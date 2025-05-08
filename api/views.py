@@ -1,5 +1,6 @@
 from django.db.models import Max
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -26,6 +27,7 @@ class OrderListAPIView(ListAPIView):
 class UserOrderListAPIView(ListAPIView):
     queryset = Order.objects.prefetch_related('items__product')
     serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
