@@ -1,4 +1,6 @@
 from django.db.models import Max
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status
 from rest_framework.generics import (ListAPIView, ListCreateAPIView,
@@ -29,6 +31,15 @@ class ProductListCreateAPIView(ListCreateAPIView):
     search_fields = ('name', 'description')
     ordering_fields = ('name', 'price', 'stock')
     pagination_class = LimitOffsetPagination
+
+    @method_decorator(cache_page(60 * 15, key_prefix='product_list'))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        import time
+        time.sleep(2)
+        return super().get_queryset()
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
