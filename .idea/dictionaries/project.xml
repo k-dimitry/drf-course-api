@@ -2,6 +2,7 @@
   <dictionary name="project">
     <words>
       <w>icontains</w>
+      <w>orderitem</w>
       <w>pagenum</w>
       <w>redoc</w>
     </words>
