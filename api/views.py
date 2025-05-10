@@ -1,20 +1,19 @@
 from django.db.models import Max
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status
-from rest_framework.decorators import action
 from rest_framework.generics import (ListAPIView, ListCreateAPIView,
                                      RetrieveUpdateDestroyAPIView)
-from rest_framework.pagination import (LimitOffsetPagination,
-                                       PageNumberPagination)
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from api.filters import InStockFilterBackend, OrderFilter, ProductFilter
-from api.models import Order, Product
-from api.serializers import (OrderSerializer, ProductInfoSerializer,
-                             ProductSerializer, OrderCreateSerializer)
+from api.models import Order, Product, User
+from api.serializers import (OrderCreateSerializer, OrderSerializer,
+                             ProductInfoSerializer, ProductSerializer,
+                             UserSerializer)
 
 
 class ProductListCreateAPIView(ListCreateAPIView):
@@ -83,22 +82,8 @@ class OrderViewSet(ModelViewSet):
             qs = qs.filter(user=self.request.user)
         return qs
 
-    # @action(
-    #     detail=False,
-    #     methods=['get'],
-    #     url_path='user-orders',
-    # )
-    # def user_orders(self, request, *args, **kwargs):
-    #     orders = self.get_queryset().filter(user=request.user)
-    #     serializer = self.serializer_class(orders, many=True)
-    #     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-# class UserOrderListAPIView(ListAPIView):
-#     queryset = Order.objects.prefetch_related('items__product')
-#     serializer_class = OrderSerializer
-#     permission_classes = [IsAuthenticated]
-#
-#     def get_queryset(self):
-#         user = self.request.user
-#         qs = super().get_queryset()
-#         return qs.filter(user=user)
+class UserListView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    pagination_class = None
