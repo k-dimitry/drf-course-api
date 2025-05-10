@@ -143,7 +143,7 @@ SIMPLE_JWT = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'E-Commerce API',
-    'DESCRIPTION': 'Project based on DRF course by BugBytes o youtube.com',
+    'DESCRIPTION': 'Project based on DRF course by BugBytes on youtube.com',
     'VERSION': '0.0.1',
     'SERVE_INCLUDE_SCHEMA': False,
 }
