@@ -14,6 +14,11 @@ I used **uv** as package and virtual environment manager. However, it has requir
 ```uv sync```
 
 ## Launching
+1. Run redis using docker:
+
+```docker run --name django-redis -d -p 6379:6379 --rm redis```
+2. Start the app:
+
 ```python manage.py runserver```
 
 ## Credits
