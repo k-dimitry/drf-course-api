@@ -142,8 +142,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '100/day',
-        'products': '2/minute',
-        'orders': '3/minute',
+        'products': '60/minute',
+        'orders': '60/minute',
     }
 }
 
