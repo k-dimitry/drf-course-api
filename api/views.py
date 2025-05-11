@@ -9,6 +9,7 @@ from rest_framework.generics import (ListAPIView, ListCreateAPIView,
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
@@ -20,6 +21,8 @@ from api.serializers import (OrderCreateSerializer, OrderSerializer,
 
 
 class ProductListCreateAPIView(ListCreateAPIView):
+    throttle_scope = 'products'
+    throttle_classes = [ScopedRateThrottle]
     queryset = Product.objects.order_by('pk')
     serializer_class = ProductSerializer
     filterset_class = ProductFilter
@@ -73,6 +76,7 @@ class ProductInfoAPIView(APIView):
 
 
 class OrderViewSet(ModelViewSet):
+    throttle_scope = 'orders'
     queryset = Order.objects.prefetch_related('items__product')
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
