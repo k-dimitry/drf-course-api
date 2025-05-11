@@ -18,6 +18,7 @@ from api.models import Order, Product, User
 from api.serializers import (OrderCreateSerializer, OrderSerializer,
                              ProductInfoSerializer, ProductSerializer,
                              UserSerializer)
+from api.tasks import send_order_confirmation_email
 
 
 class ProductListCreateAPIView(ListCreateAPIView):
@@ -90,7 +91,8 @@ class OrderViewSet(ModelViewSet):
         return super().list(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        order = serializer.save(user=self.request.user)
+        send_order_confirmation_email.delay(order.order_id, self.request.user.email)
 
     def get_serializer_class(self):
         if self.action == 'create' or self.action == 'update':

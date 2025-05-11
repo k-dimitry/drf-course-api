@@ -100,7 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -118,6 +118,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.User'
 
+# DRF settings
 REST_FRAMEWORK = {
     # Authentication
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -147,11 +148,13 @@ REST_FRAMEWORK = {
     }
 }
 
+# Settings for JSON Web Tokens auth
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
 }
 
+# Settings for drf spectacular
 SPECTACULAR_SETTINGS = {
     'TITLE': 'E-Commerce API',
     'DESCRIPTION': 'Project based on DRF course by BugBytes on youtube.com',
@@ -159,6 +162,7 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
+# Caching settings
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -168,3 +172,8 @@ CACHES = {
         }
     }
 }
+
+# Celery Configuration Options
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
