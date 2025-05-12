@@ -17,6 +17,7 @@ I used **uv** as package and virtual environment manager. However, it has requir
 1. Run redis using docker:
 
 ```docker run --name django-redis -d -p 6379:6379 --rm redis```
+
 2. Run the server:
 
 ```python manage.py runserver```
